@@ -1,5 +1,6 @@
 import { Schema, model, models, Document, Types } from 'mongoose';
 import Event from './event.model';
+import { NextRequest, NextResponse} from 'next/server';
 
 // TypeScript interface for Booking document
 export interface IBooking extends Document {

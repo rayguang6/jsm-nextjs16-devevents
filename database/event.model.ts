@@ -1,4 +1,6 @@
 import { Schema, model, models, Document } from 'mongoose';
+import { NextRequest, NextResponse} from 'next/server';
+
 
 // TypeScript interface for Event document
 export interface IEvent extends Document {
@@ -111,7 +113,7 @@ const EventSchema = new Schema<IEvent>(
 
 // Pre-save hook for slug generation and data normalization
 EventSchema.pre('save', function (next) {
-  const event = this as IEvent & { isModified: (field: string) => boolean; isNew: boolean };
+  const event = this as IEvent;
 
   // Generate slug only if title changed or document is new
   if (event.isModified('title') || event.isNew) {
@@ -128,7 +130,7 @@ EventSchema.pre('save', function (next) {
     event.time = normalizeTime(event.time);
   }
 
-  (next as (err?: Error) => void)();
+  next();
 });
 
 // Helper function to generate URL-friendly slug
